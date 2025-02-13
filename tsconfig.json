@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx", // ✅ Add this line
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  }
+}

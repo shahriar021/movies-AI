@@ -3,20 +3,26 @@ import Header from "./Header";
 import { checkValidation } from "../utils/validation";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  updateProfile
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const navigate = useNavigate();
   const toggleSignIn = () => {
     setIsSignIn(!isSignIn);
   };
   const email = useRef(null);
   const password = useRef(null);
+  const fName = useRef(null);
   const handleSubmit = () => {
     console.log("Email:", email.current.value);
     console.log("Password:", password.current.value);
+    console.log("full name:", fName?.current?.value);
     const message = checkValidation(
       email.current.value,
       password.current.value
@@ -27,14 +33,19 @@ const Login = () => {
     if (!isSignIn) {
       createUserWithEmailAndPassword(
         auth,
-        email.current.value,
-        password.current.value
+        email.current?.value,
+        password.current?.value
       )
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
-          console.log(user, "user");
-          // ...
+          updateProfile(user, {
+            displayName: fName?.current?.value,
+            photoURL: "https://avatars.githubusercontent.com/u/95222498?v=4"
+          }).then(() => {
+            console.log(user, "sign in");
+            navigate("/browse");
+          });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -44,12 +55,18 @@ const Login = () => {
     } else {
       signInWithEmailAndPassword(
         auth,
-        email.current.value,
-        password.current.value
+        email.current?.value,
+        password.current?.value
       )
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user, "sign in");
+          updateProfile(user, {
+            displayName: fName?.current?.value,
+            photoURL: "https://avatars.githubusercontent.com/u/95222498?v=4"
+          }).then(() => {
+            console.log(user, "sign in");
+            navigate("/browse");
+          });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -76,6 +93,7 @@ const Login = () => {
         </h1>
         {!isSignIn && (
           <input
+            ref={fName}
             type="text"
             placeholder="full name"
             className="p-2 my-2 w-full "

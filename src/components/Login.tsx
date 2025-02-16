@@ -43,8 +43,6 @@ const Login = () => {
             displayName: fName?.current?.value,
             photoURL: "https://avatars.githubusercontent.com/u/95222498?v=4"
           }).then(() => {
-            console.log(user, "sign in");
-            navigate("/browse");
           });
         })
         .catch((error) => {
@@ -64,8 +62,6 @@ const Login = () => {
             displayName: fName?.current?.value,
             photoURL: "https://avatars.githubusercontent.com/u/95222498?v=4"
           }).then(() => {
-            console.log(user, "sign in");
-            navigate("/browse");
           });
         })
         .catch((error) => {

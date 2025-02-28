@@ -5,7 +5,10 @@ const Browse = () => {
   return (
     <div>
       <Header />
-      browse
+      {/* main container */}
+      
+
+      {/* secondary container */}
     </div>
   );
 };

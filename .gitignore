@@ -11,6 +11,8 @@
 # production
 /build
 
+src/utils/constant.ts
+
 # misc
 .DS_Store
 .env.local

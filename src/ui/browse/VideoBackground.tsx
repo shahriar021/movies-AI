@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 export default function VideoBackground({ moviesID }) {
   const [trailerkey, setTrailerKey] = useState(null);
   const trailerId = useSelector((store: any) => store.movies.trailerKey);
-  console.log(moviesID, "id in vidobackground");
   //   useMovieTrailer(moviesID);
   const dispatch = useDispatch();
   const getMovieTrailer = async () => {
@@ -16,18 +15,15 @@ export default function VideoBackground({ moviesID }) {
       options
     );
     const jsonData = await data.json();
-    console.log(jsonData.results);
     const trailer = jsonData.results?.find(
       (movie: any) => movie.type === "Trailer"
     );
-    console.log(trailer.key, "trailer");
     setTrailerKey(trailer.key);
-    dispatch(addTrailerKey(trailer));
+    // dispatch(addTrailerKey(trailer));
   };
   useEffect(() => {
     getMovieTrailer();
   }, []);
-  console.log(trailerkey, "trailer key");
   return (
     <div className="w-screen aspect-video">
       <iframe

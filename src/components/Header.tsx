@@ -5,11 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootType } from "../redux/store";
 import { addUser, removeUser } from "../redux/slice/userSlice";
+import { languageLocalization, toggleGptSearch } from "../redux/slice/gptSlice";
+import { languagelist } from "../utils/constant";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((store: RootType) => store.user);
+  const gptTgl = useSelector((store: any) => store.gpt.toggleGpt);
   const hadleSIgnOut = () => {
     signOut(auth)
       .then(() => {})
@@ -30,6 +33,15 @@ const Header = () => {
       }
     });
   }, []);
+
+  const handleGptToggle = () => {
+    dispatch(toggleGptSearch());
+  };
+
+  const handleLanguageChange = (e) => {
+    console.log(e.target.value, "code");
+    dispatch(languageLocalization(e.target.value));
+  };
   return (
     <div className="absolute px-8 py-2 bg-gradient-to-b from-black z-10 w-screen flex justify-between">
       <img
@@ -39,6 +51,21 @@ const Header = () => {
       />
       {user && (
         <div className="flex p-2 items-center gap-5">
+          {gptTgl && (
+            <select className="p-3" onChange={handleLanguageChange}>
+              {languagelist.map((language) => (
+                <option key={language.id} value={language.name}>
+                  {language.id}
+                </option>
+              ))}
+            </select>
+          )}
+          <button
+            className="p-3 bg-red-800 text-white rounded-md"
+            onClick={handleGptToggle}
+          >
+            {gptTgl ? "home" : "Gpt Search"}
+          </button>
           <img
             className="w-12 h-12 rounded-lg"
             src={user?.photoURL}

@@ -1,16 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export type AppUser = {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
+  photoURL: string | null;
+};
 
 export const userSlice = createSlice({
   name: "user",
-  initialState: null,
+  initialState: null as AppUser | null,
   reducers: {
-    addUser: (state, action) => {
-      return action.payload;
-    },
-    removeUser: () => {
-      return null;
-    }
-  }
+    addUser: (_state, action: PayloadAction<AppUser>) => action.payload,
+    removeUser: () => null,
+  },
 });
 
 export const { addUser, removeUser } = userSlice.actions;

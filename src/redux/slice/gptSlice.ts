@@ -1,20 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { LangKey } from "../../utils/languageconstants";
 
+// AI Search is its own page now (/search); this only keeps the chosen language.
 export const gptSlice = createSlice({
   name: "gpt",
   initialState: {
-    toggleGpt: false,
-    languageChange: "en"
+    languageChange: "en" as LangKey,
   },
   reducers: {
-    toggleGptSearch: (state) => {
-      state.toggleGpt = !state.toggleGpt;
-    },
-    languageLocalization: (state, action) => {
+    languageLocalization: (state, action: PayloadAction<LangKey>) => {
       state.languageChange = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export default gptSlice.reducer;
-export const { toggleGptSearch, languageLocalization } = gptSlice.actions;
+export const { languageLocalization } = gptSlice.actions;
